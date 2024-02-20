@@ -1,55 +1,13 @@
-import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_file_dialog/flutter_file_dialog.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:wallpaper_app/screens/Home%20Screen/bloc/home_bloc.dart';
-import 'package:xdg_directories/xdg_directories.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:wallpaper_app/screens/secrets.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatelessWidget {
+  HomeScreen({super.key});
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  Uint8List? file;
-
-  @override
-  void initState() {
-    // context.read<HomeBloc>().emit(HomeSuccess());
-    super.initState();
-  }
-
-  // void getPromptResult(String prompt) async {
-  //   final dio = Dio();
-  //   final headers = {"Authorization": "Bearer $imagineAPIKey"};
-  //   final formdata = FormData.fromMap({"prompt": prompt, "style_id": 31});
-  //   final response = await dio.post(
-  //       'https://api.vyro.ai/v1/imagine/api/generations',
-  //       options: Options(
-  //           method: "POST", headers: headers, responseType: ResponseType.bytes),
-  //       data: formdata);
-
-  //   if (response.statusCode == 200) {
-  //     print(response.statusCode);
-  //     // File file = File("genImage.jpg");
-  //     // file.writeAsBytesSync(response.data);
-  //     setState(() {
-  //       file = Uint8List.fromList(response.data);
-  //     });
-  //   } else {
-  //     print(response.statusMessage);
-  //   }
-  // }
-
-  final TextEditingController promtController = TextEditingController();
+  final TextEditingController promptController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -81,8 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           onPressed: () {
                             context.read<HomeBloc>().add(
                                 SaveGeneratedImageToLocalStorageClickedEvent(
-                                    state.image!, promtController.text));
-                            
+                                    state.image!, promptController.text));
+
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text("Image Saved")));
                           },
@@ -117,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 20,
                   ),
                   TextField(
-                    controller: promtController,
+                    controller: promptController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -137,9 +95,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       onPressed: () {
-                        print("pressed");
                         context.read<HomeBloc>().add(
-                              GenerateButtonClickedEvent(promtController.text),
+                              GenerateButtonClickedEvent(promptController.text),
                             );
                         // getPromptResult(promtController.text);
                       },
