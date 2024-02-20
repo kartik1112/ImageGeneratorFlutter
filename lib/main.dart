@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:wallpaper_app/screens/Auth%20Screen/bloc/auth_bloc.dart';
 import 'package:wallpaper_app/screens/Auth%20Screen/ui/auth_screen.dart';
 import 'package:wallpaper_app/screens/Home%20Screen/bloc/home_bloc.dart';
-import 'package:wallpaper_app/screens/Home%20Screen/ui/home_screen.dart';
 import 'package:wallpaper_app/repositories/get_api_data.dart';
 
 void main() {
@@ -16,7 +15,6 @@ void main() {
         providers: [
           BlocProvider<HomeBloc>(create: (context) => HomeBloc()),
           BlocProvider<AuthBloc>(create: (context) => AuthBloc()),
-          // (context) => HomeBloc(),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
