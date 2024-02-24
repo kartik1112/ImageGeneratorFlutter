@@ -2,14 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wallpaper_app/screens/Auth%20Screen/bloc/auth_bloc.dart';
 import 'package:wallpaper_app/screens/Auth%20Screen/ui/login_widget.dart';
 import 'package:wallpaper_app/screens/Auth%20Screen/ui/signup_widget.dart';
 import 'package:wallpaper_app/screens/Home%20Screen/ui/home_screen.dart';
-import 'package:wallpaper_app/widgets/auth_screen_login_button.dart';
-import 'package:wallpaper_app/widgets/auth_screen_textfield.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
