@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "377476245294",
+    "project_id": "wallpapergenerator-6ec02",
+    "storage_bucket": "wallpapergenerator-6ec02.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:377476245294:android:ac12dff5e145127b973cbf",
+        "android_client_info": {
+          "package_name": "com.example.wallpaper_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "377476245294-0gvim2ajjm7kkl4glgpobf6n4i9pviva.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2xagLaFmipomQAGpsfCPyBUsL9_lyLXc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "377476245294-0gvim2ajjm7kkl4glgpobf6n4i9pviva.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
