@@ -3,24 +3,25 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_file_dialog/flutter_file_dialog.dart';
 import 'package:meta/meta.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:wallpaper_app/repositories/get_api_data.dart';
+import 'package:wallpaper_app/screens/Auth%20Screen/bloc/auth_bloc.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(HomeInitial()) {
-    onTransition(transition) {
-      print(transition.toString());
-    }
-
     on<GenerateButtonClickedEvent>(generateButtonClickedEvent);
     on<SaveGeneratedImageToLocalStorageClickedEvent>(
         saveGeneratedImageToLocalStorageClickedEvent);
+    on<SignOutButtonClickedEvent>(signOutButtonClickedEvent);
   }
 
   FutureOr<void> generateButtonClickedEvent(
@@ -48,5 +49,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     final params = SaveFileDialogParams(sourceFilePath: imageFile.path);
 
     await FlutterFileDialog.saveFile(params: params);
+  }
+
+  FutureOr<void> signOutButtonClickedEvent(
+      SignOutButtonClickedEvent event, Emitter<HomeState> emit) async {
+    await FirebaseAuth.instance.signOut();
+    emit(HomeInitial());
   }
 }

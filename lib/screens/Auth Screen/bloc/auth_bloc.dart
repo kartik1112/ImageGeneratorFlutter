@@ -22,6 +22,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           email: event.username, password: event.password);
       if (FirebaseAuth.instance.currentUser != null) {
         emit(AuthSuccess());
+        emit(AuthInitial());
       } else {
         emit(AuthFailure(message: "Login not Successfull"));
       }

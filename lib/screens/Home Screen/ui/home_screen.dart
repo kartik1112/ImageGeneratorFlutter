@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallpaper_app/screens/Home%20Screen/bloc/home_bloc.dart';
@@ -12,12 +11,21 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
           "Generate Image 🚀",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              context.read<HomeBloc>().add(SignOutButtonClickedEvent(context));
+            },
+            icon: const Icon(Icons.exit_to_app),
+          )
+        ],
       ),
       body: Center(
         child: Column(

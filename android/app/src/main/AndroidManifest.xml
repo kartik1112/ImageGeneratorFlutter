@@ -2,6 +2,7 @@
 <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:label="wallpaper_app"
+        android:enableOnBackInvokedCallback="true"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
