@@ -87,7 +87,11 @@ class LoginWidget extends StatelessWidget {
               Row(
                 children: [
                   AuthScreenLoginButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context
+                          .read<AuthBloc>()
+                          .add(OnSignInWithGoogleButtonClickedEvent());
+                    },
                     subject: "Continue with Google",
                     icon: const Icon(Ionicons.logo_google),
                   ),

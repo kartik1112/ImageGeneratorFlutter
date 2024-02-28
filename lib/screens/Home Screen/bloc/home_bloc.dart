@@ -16,6 +16,10 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(HomeInitial()) {
+    onTransition(transition) {
+      print(transition.toString());
+    }
+
     on<GenerateButtonClickedEvent>(generateButtonClickedEvent);
     on<SaveGeneratedImageToLocalStorageClickedEvent>(
         saveGeneratedImageToLocalStorageClickedEvent);
@@ -27,9 +31,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(HomeLoading());
     try {
       final image = await GetApiDataRepository().getPromptResult(event.prompt);
-
       emit(HomeSuccess(image: image));
     } catch (e) {
+      print(e.toString());
       emit(HomeFailure());
     }
   }

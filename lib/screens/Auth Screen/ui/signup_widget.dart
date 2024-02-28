@@ -12,8 +12,8 @@ class SignUpWidget extends StatelessWidget {
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
     final nameController = TextEditingController();
-    final usernameController = TextEditingController();
     final _formKey = GlobalKey<FormState>();
+
     return Column(
       children: [
         CircleAvatar(
@@ -41,14 +41,6 @@ class SignUpWidget extends StatelessWidget {
                 height: 12,
               ),
               AuthScreenTextField(
-                type: 'username',
-                controller: usernameController,
-                subject: "Username",
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              AuthScreenTextField(
                 type: 'email',
                 controller: emailController,
                 subject: "Email",
@@ -70,16 +62,16 @@ class SignUpWidget extends StatelessWidget {
                   AuthScreenLoginButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                      context.read<AuthBloc>().add(OnSignUpButtonClickedEvent(
-                          username: emailController.text,
-                          password: passwordController.text));
-                        
-                      }else{
+                        context.read<AuthBloc>().add(OnSignUpButtonClickedEvent(
+                            name: nameController.text,
+                            email: emailController.text,
+                            password: passwordController.text));
+                      } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Entered Fields are not Valid')));
+                            const SnackBar(
+                                content: Text('Entered Fields are not Valid')));
                       }
                       // Future.delayed(Duration(seconds: 3));
-                      
                     },
                     subject: "Sign Up",
                     icon: const Icon(Icons.person_add_rounded),

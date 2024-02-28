@@ -5,6 +5,7 @@ import 'package:wallpaper_app/screens/secrets.dart';
 
 class GetApiDataRepository {
   Future<Uint8List> getPromptResult(String prompt) async {
+    print("called");
     final dio = Dio();
     final headers = {"Authorization": "Bearer $imagineAPIKey"};
     final formdata = FormData.fromMap({"prompt": prompt, "style_id": 31});
@@ -13,7 +14,7 @@ class GetApiDataRepository {
         options: Options(
             method: "POST", headers: headers, responseType: ResponseType.bytes),
         data: formdata);
-
+    print('${response.statusCode}, ${response.statusMessage}');
     if (response.statusCode == 200) {
       print(response.statusCode);
     } else {

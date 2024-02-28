@@ -45,6 +45,8 @@ dependencies:
   ionicons: ^0.2.2
   firebase_core: ^2.25.4
   firebase_auth: ^4.17.4
+  cloud_firestore: ^4.15.5
+  google_sign_in: ^6.2.1
 
 dev_dependencies:
   flutter_test:
@@ -71,7 +73,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - lib/assets/auth_bg.json
-  #   - images/a_dot_ham.jpeg
+    - lib/assets/loading_state.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -1,17 +1,22 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bloc/bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  final firestoreDB = FirebaseFirestore.instance;
   AuthBloc() : super(AuthInitial()) {
     on<OnSignInButtonClickedEvent>(onSignInButtonClickedEvent);
     on<OnSignUpButtonClickedEvent>(onSignUpButtonClickedEvent);
     on<OnSignUpChangeStateButtonClickedEvent>(
         onSignUpChangeStateButtonClickedEvent);
+    on<OnSignInWithGoogleButtonClickedEvent>(
+        onSignInWithGoogleButtonClickedEvent);
   }
 
   FutureOr<void> onSignInButtonClickedEvent(
@@ -35,13 +40,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       OnSignUpButtonClickedEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
 
+    // final userData = {
+    //   'name': event.name,
+    //   'email': event.email,
+    // };
     print("preesed sign up");
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: event.username, password: event.password);
+          email: event.email, password: event.password);
 
       if (FirebaseAuth.instance.currentUser != null) {
+        // await firestoreDB
+        //     .collection("users")
+        //     .add(userData)
+        //     .then((value) => print("added"));
         emit(AuthSuccess());
+        emit(AuthInitial());
       } else {
         emit(AuthFailure(message: "Login not Successfull"));
       }
@@ -53,5 +67,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   FutureOr<void> onSignUpChangeStateButtonClickedEvent(
       OnSignUpChangeStateButtonClickedEvent event, Emitter<AuthState> emit) {
     emit(AuthSignup());
+  }
+
+  FutureOr<void> onSignInWithGoogleButtonClickedEvent(
+      OnSignInWithGoogleButtonClickedEvent event,
+      Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    try {
+      final GoogleSignInAccount? user = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication gauth = await user!.authentication;
+      final credential = GoogleAuthProvider.credential(
+          idToken: gauth.idToken, accessToken: gauth.accessToken);
+      FirebaseAuth.instance.signInWithCredential(credential);
+      if (FirebaseAuth.instance.currentUser != null) {
+        emit(AuthSuccess());
+        emit(AuthInitial()); 
+      }      
+    } on FirebaseAuthException catch (e) {
+      print(e.toString());
+    }
   }
 }
