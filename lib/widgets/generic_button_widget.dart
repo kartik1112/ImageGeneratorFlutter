@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wallpaper_app/screens/Home%20Screen/bloc/home_bloc.dart';
 
 class GenericButtonWidget extends StatelessWidget {
   const GenericButtonWidget(
       {super.key,
       required this.promptController,
       required this.buttonText,
-      required this.iconData, required this.onTap});
+      required this.iconData,
+      required this.onTap});
 
   final TextEditingController promptController;
   final String buttonText;
