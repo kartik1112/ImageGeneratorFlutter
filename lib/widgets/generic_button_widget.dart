@@ -5,13 +5,14 @@ import 'package:wallpaper_app/screens/Home%20Screen/bloc/home_bloc.dart';
 class GenericButtonWidget extends StatelessWidget {
   const GenericButtonWidget(
       {super.key,
-      required this.promptText,
+      required this.promptController,
       required this.buttonText,
-      required this.iconData});
+      required this.iconData, required this.onTap});
 
-  final String promptText;
+  final TextEditingController promptController;
   final String buttonText;
   final IconData iconData;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +22,14 @@ class GenericButtonWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
       ),
-      onPressed: () {
-        context.read<HomeBloc>().add(
-              GenerateButtonClickedEvent(promptText),
-            );
-        // getPromptResult(promtController.text);
-      },
+      onPressed: onTap,
       icon: Icon(iconData),
       label: Text(buttonText),
     );
   }
 }
+
+        // context.read<HomeBloc>().add(
+        //       GenerateButtonClickedEvent(promptController.text),
+        //     );
+        // getPromptResult(promtController.text);

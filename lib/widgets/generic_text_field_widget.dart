@@ -10,6 +10,7 @@ class GenericTextFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
+      style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),

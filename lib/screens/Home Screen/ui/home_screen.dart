@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -17,6 +18,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Uint8List? imageData;
     return Stack(
       children: [
         Lottie.asset(
@@ -62,11 +64,11 @@ class HomeScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Lottie.asset(
-                            fit: BoxFit.fill,
-                            "lib/assets/loading_state.json"),
+                            fit: BoxFit.fill, "lib/assets/loading_state.json"),
                       );
                     }
                     if (state is HomeSuccess) {
+                      imageData = state.image;
                       return Container(
                         margin: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 20),
@@ -75,28 +77,28 @@ class HomeScreen extends StatelessWidget {
                           border: Border.all(),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Stack(
-                          children: [
-                            Image.memory(state.image!),
-                            Positioned(
-                              bottom: 10,
-                              right: 10,
-                              child: FloatingActionButton.extended(
-                                icon: const Icon(Icons.save_alt_rounded),
-                                onPressed: () {
-                                  context.read<HomeBloc>().add(
-                                      SaveGeneratedImageToLocalStorageClickedEvent(
-                                          state.image!, promptController.text));
+                        child: Image.memory(state.image!),
+                        // child: Stack(
+                        //   children: [
+                        //     Positioned(
+                        //       bottom: 10,
+                        //       right: 10,
+                        //       child: FloatingActionButton.extended(
+                        //         icon: const Icon(Icons.save_alt_rounded),
+                        //         onPressed: () {
+                        //           context.read<HomeBloc>().add(
+                        //               SaveGeneratedImageToLocalStorageClickedEvent(
+                        //                   state.image!, promptController.text));
 
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text("Image Saved")));
-                                },
-                                label: const Text("Save Image to Local"),
-                              ),
-                            )
-                          ],
-                        ),
+                        //           ScaffoldMessenger.of(context).showSnackBar(
+                        //               const SnackBar(
+                        //                   content: Text("Image Saved")));
+                        //         },
+                        //         label: const Text("Save Image to Local"),
+                        //       ),
+                        //     )
+                        //   ],
+                        // ),
                       );
                     }
 
@@ -161,9 +163,16 @@ class HomeScreen extends StatelessWidget {
                                 height: 60,
                                 width: double.infinity,
                                 child: GenericButtonWidget(
+                                    onTap: () {
+                                      context.read<HomeBloc>().add(
+                                            GenerateButtonClickedEvent(
+                                                promptController.text),
+                                          );
+                                      // getPromptResult(promtController.text);
+                                    },
                                     iconData: Icons.search,
                                     buttonText: "Generate✨",
-                                    promptText: promptController.text),
+                                    promptController: promptController),
                               ),
                               const SizedBox(
                                 height: 15,
@@ -174,9 +183,31 @@ class HomeScreen extends StatelessWidget {
                                     child: SizedBox(
                                       height: 60,
                                       child: GenericButtonWidget(
+                                          onTap: () {
+                                            context.read<HomeBloc>().add(
+                                                  SaveGeneratedImageToLocalStorageClickedEvent(
+                                                      imageData!,
+                                                      promptController.text),
+                                                );
+
+                                            Future.delayed(
+                                              const Duration(seconds: 2),
+                                              () {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  const SnackBar(
+                                                    content:
+                                                        Text("Image Saved"),
+                                                    duration:
+                                                        Duration(seconds: 3),
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          },
                                           iconData: Icons.save_alt_rounded,
                                           buttonText: "Save to Local",
-                                          promptText: promptController.text),
+                                          promptController: promptController),
                                     ),
                                   ),
                                   const SizedBox(
@@ -186,9 +217,14 @@ class HomeScreen extends StatelessWidget {
                                     child: SizedBox(
                                       height: 60,
                                       child: GenericButtonWidget(
+                                          onTap: () {
+                                            // TODO : save data to cloud 
+
+                                            
+                                          },
                                           iconData: Ionicons.cloud,
                                           buttonText: "Save to Cloud",
-                                          promptText: promptController.text),
+                                          promptController: promptController),
                                     ),
                                   ),
                                 ],
