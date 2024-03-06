@@ -44,6 +44,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     //   'name': event.name,
     //   'email': event.email,
     // };
+
+    // final storage = FirebaseFirestore
     print("preesed sign up");
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(

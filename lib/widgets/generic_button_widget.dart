@@ -27,8 +27,3 @@ class GenericButtonWidget extends StatelessWidget {
     );
   }
 }
-
-        // context.read<HomeBloc>().add(
-        //       GenerateButtonClickedEvent(promptController.text),
-        //     );
-        // getPromptResult(promtController.text);
