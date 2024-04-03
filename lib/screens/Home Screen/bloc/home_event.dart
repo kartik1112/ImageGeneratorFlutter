@@ -16,4 +16,12 @@ class SaveGeneratedImageToLocalStorageClickedEvent extends HomeEvent {
   SaveGeneratedImageToLocalStorageClickedEvent(this.imageFile, this.fileName);
 }
 
+class SaveGeneratedImageToCloudStorageClickedEvent extends HomeEvent {
+  final Uint8List imageFile;
+  final String fileName;
+  final BuildContext context;
+
+  SaveGeneratedImageToCloudStorageClickedEvent(this.imageFile, this.fileName, this.context);
+}
+
 class SignOutButtonClickedEvent extends HomeEvent {}

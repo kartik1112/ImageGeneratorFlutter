@@ -56,7 +56,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         child: Text(
                             style: TextStyle(
                                 color: Theme.of(context).colorScheme.onPrimary),
-                            "Welcome"),
+                            "Image Generator"),
                       ),
                     ),
                   ),

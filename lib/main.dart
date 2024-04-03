@@ -22,19 +22,20 @@ void main() async {
           BlocProvider<AuthBloc>(create: (context) => AuthBloc()),
         ],
         child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-                textTheme: GoogleFonts.robotoCondensedTextTheme(),
-                colorScheme:
-                    ColorScheme.fromSeed(seedColor: Colors.blueAccent)),
-            home: StreamBuilder<User?>(
-                stream: FirebaseAuth.instance.authStateChanges(),
-                builder: (context, snapshot) {
-                  if (snapshot.data != null) {
-                    return HomeScreen();
-                  }
-                  return const AuthScreen();
-                })),
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+              textTheme: GoogleFonts.robotoCondensedTextTheme(),
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent)),
+          home: StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (snapshot.data != null) {
+                return HomeScreen();
+              }
+              return const AuthScreen();
+            },
+          ),
+        ),
       ),
     ),
   );

@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_file_dialog/flutter_file_dialog.dart';
@@ -25,6 +26,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<SaveGeneratedImageToLocalStorageClickedEvent>(
         saveGeneratedImageToLocalStorageClickedEvent);
     on<SignOutButtonClickedEvent>(signOutButtonClickedEvent);
+    on<SaveGeneratedImageToCloudStorageClickedEvent>(
+        saveGeneratedImageToCloudStorageClickedEvent);
   }
 
   FutureOr<void> generateButtonClickedEvent(
@@ -59,5 +62,28 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     await GoogleSignIn().signOut();
     await FirebaseAuth.instance.signOut();
     emit(HomeInitial());
+  }
+
+  FutureOr<void> saveGeneratedImageToCloudStorageClickedEvent(
+      SaveGeneratedImageToCloudStorageClickedEvent event,
+      Emitter<HomeState> emit) async {
+    ScaffoldMessenger.of(event.context).showSnackBar(
+      SnackBar(
+        backgroundColor: Theme.of(event.context).colorScheme.primary,
+        content: const Text("Saving to Cloud"),
+        duration: const Duration(seconds: 3),
+      ),
+    );
+
+    final storage = FirebaseStorage.instance;
+    final Directory systemTempDir =
+        Directory.systemTemp; // getting tempory directory
+    final imageFile =
+        File("${systemTempDir.path}/${event.fileName.replaceAll(" ", "")}.jpg");
+    imageFile.writeAsBytesSync(event.imageFile);
+    TaskSnapshot taskSnapshot = await storage
+        .ref("${event.fileName.replaceAll(" ", "")}.jpg")
+        .putFile(imageFile);
+    
   }
 }

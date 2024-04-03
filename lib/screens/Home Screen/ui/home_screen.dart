@@ -31,6 +31,7 @@ class HomeScreen extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             centerTitle: true,
+            // leading: TextButton(onPressed: (){}, child: Text("Saved Images")),
             title: Text(
               "Generate Image 🚀",
               style: TextStyle(
@@ -78,27 +79,6 @@ class HomeScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Image.memory(state.image!),
-                        // child: Stack(
-                        //   children: [
-                        //     Positioned(
-                        //       bottom: 10,
-                        //       right: 10,
-                        //       child: FloatingActionButton.extended(
-                        //         icon: const Icon(Icons.save_alt_rounded),
-                        //         onPressed: () {
-                        //           context.read<HomeBloc>().add(
-                        //               SaveGeneratedImageToLocalStorageClickedEvent(
-                        //                   state.image!, promptController.text));
-
-                        //           ScaffoldMessenger.of(context).showSnackBar(
-                        //               const SnackBar(
-                        //                   content: Text("Image Saved")));
-                        //         },
-                        //         label: const Text("Save Image to Local"),
-                        //       ),
-                        //     )
-                        //   ],
-                        // ),
                       );
                     }
 
@@ -189,7 +169,6 @@ class HomeScreen extends StatelessWidget {
                                                       imageData!,
                                                       promptController.text),
                                                 );
-
                                             Future.delayed(
                                               const Duration(seconds: 2),
                                               () {
@@ -218,9 +197,11 @@ class HomeScreen extends StatelessWidget {
                                       height: 60,
                                       child: GenericButtonWidget(
                                           onTap: () {
-                                            // TODO : save data to cloud 
-
-                                            
+                                            context.read<HomeBloc>().add(
+                                                SaveGeneratedImageToCloudStorageClickedEvent(
+                                                    imageData!,
+                                                    promptController.text,
+                                                    context));
                                           },
                                           iconData: Ionicons.cloud,
                                           buttonText: "Save to Cloud",
@@ -228,7 +209,7 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ],
-                              )
+                              ),
                             ],
                           ),
                         ),

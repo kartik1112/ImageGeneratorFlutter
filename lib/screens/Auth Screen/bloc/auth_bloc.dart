@@ -40,23 +40,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       OnSignUpButtonClickedEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
 
-    // final userData = {
-    //   'name': event.name,
-    //   'email': event.email,
-    // };
-
-    // final storage = FirebaseFirestore
     print("preesed sign up");
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: event.email, password: event.password);
 
       if (FirebaseAuth.instance.currentUser != null) {
-        // await firestoreDB
-        //     .collection("users")
-        //     .add(userData)
-        //     .then((value) => print("added"));
         emit(AuthSuccess());
+
         emit(AuthInitial());
       } else {
         emit(AuthFailure(message: "Login not Successfull"));
@@ -75,6 +66,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       OnSignInWithGoogleButtonClickedEvent event,
       Emitter<AuthState> emit) async {
     emit(AuthLoading());
+
     try {
       final GoogleSignInAccount? user = await GoogleSignIn().signIn();
       final GoogleSignInAuthentication gauth = await user!.authentication;
@@ -83,8 +75,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       FirebaseAuth.instance.signInWithCredential(credential);
       if (FirebaseAuth.instance.currentUser != null) {
         emit(AuthSuccess());
-        emit(AuthInitial()); 
-      }      
+        final userData = {
+          'name': user.displayName,
+          'email': user.email,
+        };
+        final db = FirebaseFirestore.instance;
+        final storage = db.collection('users');
+        final result = storage.add(userData);
+        print(result.toString());
+        emit(AuthInitial());
+      }
     } on FirebaseAuthException catch (e) {
       print(e.toString());
     }
